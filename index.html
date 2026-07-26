@@ -1,11 +1,18 @@
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Креаторка Mini App</title>
+    
     <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
+    
+    <!-- Мобильная консоль отладки Eruda (для просмотра ошибок прямо на телефоне) -->
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>
+    
+    <!-- Иконки FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -71,7 +78,7 @@
 
         .user-name {
             font-weight: 700;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .user-role {
@@ -93,7 +100,7 @@
             font-size: 15px;
         }
 
-        /* --- КОНТЕНТ ВКТАДОК --- */
+        /* --- КОНТЕНТ ВКЛАДОК --- */
         .container {
             padding: 16px;
         }
@@ -112,7 +119,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- КАРТОЧКИ --- */
+        /* --- КАРТОЧКИ И КНОПКИ --- */
         .card {
             background: var(--card-bg);
             border: 3px solid var(--border-color);
@@ -145,7 +152,7 @@
             box-shadow: 2px 2px 0px #000;
         }
 
-        /* --- ВКЛАДКА КАЗИНО --- */
+        /* --- КАЗИНО --- */
         .slot-machine {
             text-align: center;
         }
@@ -207,7 +214,7 @@
             border-color: #000;
         }
 
-        /* --- ВКЛАДКА МАГАЗИН --- */
+        /* --- МАГАЗИН --- */
         .shop-grid {
             display: flex;
             flex-direction: column;
@@ -237,7 +244,7 @@
             font-size: 13px;
         }
 
-        /* --- ВКЛАДКА ИСТОРИЯ --- */
+        /* --- ИСТОРИЯ --- */
         .history-list {
             display: flex;
             flex-direction: column;
@@ -272,7 +279,7 @@
         .amount-plus { color: var(--success-color); }
         .amount-minus { color: var(--danger-color); }
 
-        /* --- НИЖНЯЯ НАВИГАЦИЯ --- */
+        /* --- НАВИГАЦИЯ --- */
         .nav-bar {
             position: fixed;
             bottom: 0;
@@ -320,20 +327,20 @@
         </div>
         <div class="balance-badge">
             <i class="fa-solid fa-coins"></i>
-            <span id="user-balance">0.00</span>
+            <span id="user-balance">0</span>
         </div>
     </div>
 
-    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <!-- КОНТЕНТ -->
     <div class="container">
 
-        <!-- 1. Вкладка: ПРОФИЛЬ -->
+        <!-- 1. ПРОФИЛЬ -->
         <div id="tab-profile" class="tab-content active">
             <div class="card" style="text-align: center;">
                 <i class="fa-solid fa-crown" style="font-size: 40px; color: var(--accent-gold); margin-bottom: 10px;"></i>
                 <h2 style="margin-bottom: 5px;">Твой Баланс</h2>
-                <h1 style="font-size: 36px; color: var(--accent-gold);" id="profile-balance">0.00</h1>
-                <p style="color: var(--text-sub); font-size: 13px; margin-top: 5px;">Зарабатывай монеты, сдавая ДЗ в срок!</p>
+                <h1 style="font-size: 34px; color: var(--accent-gold);" id="profile-balance">0</h1>
+                <p style="color: var(--text-sub); font-size: 13px; margin-top: 6px;">Зарабатывай монеты, сдавая ДЗ в срок!</p>
             </div>
 
             <div class="card">
@@ -345,7 +352,7 @@
             </div>
         </div>
 
-        <!-- 2. Вкладка: МАГАЗИН -->
+        <!-- 2. МАГАЗИН -->
         <div id="tab-shop" class="tab-content">
             <h2 style="margin-bottom: 15px;"><i class="fa-solid fa-store"></i> Магазин Индульгенций</h2>
             <div class="shop-grid">
@@ -354,33 +361,33 @@
                     <div class="shop-item-info">
                         <h4>📜 Индульгенция ДЗ</h4>
                         <p>Списывает 1 просроченный дедлайн</p>
-                        <p style="color: var(--accent-gold); font-weight: bold; margin-top: 4px;">150.00 монет</p>
+                        <p style="color: var(--accent-gold); font-weight: bold; margin-top: 4px;">50 000 монет</p>
                     </div>
-                    <button class="btn shop-buy-btn" onclick="buyItem('Индульгенция ДЗ', 150)">Купить</button>
+                    <button class="btn shop-buy-btn" onclick="buyItem('Индульгенция ДЗ', 50000)">Купить</button>
                 </div>
 
                 <div class="card shop-item">
                     <div class="shop-item-info">
                         <h4>✨ Снятие Невайба</h4>
                         <p>Очищает 1 штраф из истории</p>
-                        <p style="color: var(--accent-gold); font-weight: bold; margin-top: 4px;">300.00 монет</p>
+                        <p style="color: var(--accent-gold); font-weight: bold; margin-top: 4px;">100 000 монет</p>
                     </div>
-                    <button class="btn shop-buy-btn" onclick="buyItem('Снятие Невайба', 300)">Купить</button>
+                    <button class="btn shop-buy-btn" onclick="buyItem('Снятие Невайба', 100000)">Купить</button>
                 </div>
 
                 <div class="card shop-item">
                     <div class="shop-item-info">
                         <h4>👑 VIP Титул в боте</h4>
                         <p>Особый статус в списках креаторов</p>
-                        <p style="color: var(--accent-gold); font-weight: bold; margin-top: 4px;">500.00 монет</p>
+                        <p style="color: var(--accent-gold); font-weight: bold; margin-top: 4px;">500 000 монет</p>
                     </div>
-                    <button class="btn shop-buy-btn" onclick="buyItem('VIP Титул', 500)">Купить</button>
+                    <button class="btn shop-buy-btn" onclick="buyItem('VIP Титул', 500000)">Купить</button>
                 </div>
 
             </div>
         </div>
 
-        <!-- 3. Вкладка: КАЗИНО -->
+        <!-- 3. КАЗИНО -->
         <div id="tab-casino" class="tab-content">
             <div class="card slot-machine">
                 <h2>🎰 Слот Машина</h2>
@@ -394,9 +401,9 @@
 
                 <p style="font-size: 13px; font-weight: bold; margin-bottom: 8px;">Выбери ставку:</p>
                 <div class="bet-selector">
-                    <button class="bet-btn active" onclick="setBet(10, this)">10</button>
-                    <button class="bet-btn" onclick="setBet(50, this)">50</button>
-                    <button class="bet-btn" onclick="setBet(100, this)">100</button>
+                    <button class="bet-btn active" onclick="setBet(1000, this)">1 000</button>
+                    <button class="bet-btn" onclick="setBet(5000, this)">5 000</button>
+                    <button class="bet-btn" onclick="setBet(25000, this)">25 000</button>
                 </div>
 
                 <button class="btn" id="spin-btn" onclick="spinSlots()"><i class="fa-solid fa-rotate"></i> КРУТИТЬ!</button>
@@ -404,16 +411,17 @@
             </div>
         </div>
 
-        <!-- 4. Вкладка: ИСТОРИЯ -->
+        <!-- 4. ИСТОРИЯ -->
         <div id="tab-history" class="tab-content">
             <h2 style="margin-bottom: 15px;"><i class="fa-solid fa-receipt"></i> История Операций</h2>
             <div class="history-list" id="history-container">
+                <p style="color: var(--text-sub); text-align: center;">Загрузка...</p>
             </div>
         </div>
 
     </div>
 
-    <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+    <!-- НАВИГАЦИЯ -->
     <div class="nav-bar">
         <div class="nav-item active" onclick="switchTab('profile', this)">
             <i class="fa-solid fa-user"></i>
@@ -433,224 +441,225 @@
         </div>
     </div>
 
+    <!-- СКТИПТЫ ЛОГИКИ -->
     <script>
-    const API_BASE_URL = "https://lovely-chicken-tan.loca.lt";
+        // !!! ТВОЙ URL ТУННЕЛЯ (Замени на свой актуальный URL) !!!
+        const API_BASE_URL = "https://lovely-chicken-tan.loca.lt";
 
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-        tg.expand();
-        tg.ready();
-    }
-
-    const initData = tg?.initData || "";
-    let userBalance = 250000; 
-    let currentBet = 5000; 
-
-    function formatCoins(num) {
-        return Math.floor(num || 0).toLocaleString('ru-RU');
-    }
-
-    // Загрузка реальных данных
-    async function loadUserData() {
-        if (!initData) {
-            updateBalanceUI();
-            return;
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.expand();
+            tg.ready();
         }
 
-        try {
-            const res = await fetch(`${API_BASE_URL}/api/profile`, {
-                headers: { 'Authorization': `Bearer ${initData}` }
-            });
-            
-            if (!res.ok) throw new Error("Ошибка сервера");
-            
-            const data = await res.json();
-            userBalance = data.balance;
-            
-            document.getElementById('u-name').innerText = data.name;
-            document.getElementById('u-role').innerText = data.role;
-            updateBalanceUI();
-            renderHistoryFromAPI(data.history);
-        } catch (e) {
-            console.error("Ошибка загрузки:", e);
-        }
-    }
+        const initData = tg?.initData || "";
+        let userBalance = 0;
+        let currentBet = 1000;
+        let isSpinning = false;
 
-    function updateBalanceUI() {
-        const formatted = formatCoins(userBalance);
-        document.getElementById('user-balance').innerText = formatted;
-        document.getElementById('profile-balance').innerText = formatted;
-    }
-
-    // Отрисовка истории
-    function renderHistoryFromAPI(historyList) {
-        const container = document.getElementById('history-container');
-        container.innerHTML = '';
-
-        if (!historyList || historyList.length === 0) {
-            container.innerHTML = '<p style="color: var(--text-sub); text-align: center;">История пока пуста</p>';
-            return;
+        // Форматирование тысяч (например: 150000 -> "150 000")
+        function formatCoins(num) {
+            return Math.floor(num || 0).toLocaleString('ru-RU');
         }
 
-        historyList.forEach(item => {
-            const el = document.createElement('div');
-            el.className = 'history-item';
-            const isPlus = item.amount >= 0;
-            const sign = isPlus ? '+' : '';
-            const colorClass = isPlus ? 'amount-plus' : 'amount-minus';
-
-            el.innerHTML = `
-                <div class="history-info">
-                    <p>${item.reason}</p>
-                    <span>${item.date}</span>
-                </div>
-                <div class="history-amount ${colorClass}">${sign}${formatCoins(item.amount)}</div>
-            `;
-            container.appendChild(el);
-        });
-    }
-
-    // Ставка в казике
-    function setBet(amount, btnEl) {
-        if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
-        currentBet = amount;
-        document.querySelectorAll('.bet-btn').forEach(b => b.classList.remove('active'));
-        btnEl.classList.add('active');
-    }
-
-    // Крутка Казика
-    let isSpinning = false;
-    const slotSymbols = ['🍒', '🍋', '💎', '🎰', '👑', '🌟'];
-
-    async function spinSlots() {
-        if (isSpinning) return;
-        if (userBalance < currentBet) {
-            alert('Недостаточно монет для ставки!');
-            return;
-        }
-
-        isSpinning = true;
-        if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy');
-
-        const statusEl = document.getElementById('casino-status');
-        statusEl.innerText = "Крутим...";
-        statusEl.style.color = "var(--accent-gold)";
-
-        try {
-            const res = await fetch(`${API_BASE_URL}/api/spin`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${initData}`
-                },
-                body: JSON.stringify({ bet: currentBet })
-            });
-
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.error || "Ошибка сервера");
-
-            document.getElementById('reel1').innerText = data.reels[0];
-            document.getElementById('reel2').innerText = data.reels[1];
-            document.getElementById('reel3').innerText = data.reels[2];
-
-            userBalance = data.new_balance;
-            updateBalanceUI();
-
-            if (data.win_amount > 0) {
-                statusEl.innerText = `🎉 Выигрыш +${formatCoins(data.win_amount)} монет!`;
-                statusEl.style.color = "var(--success-color)";
-            } else {
-                statusEl.innerText = `💔 Проигрыш -${formatCoins(currentBet)} монет`;
-                statusEl.style.color = "var(--danger-color)";
+        // Загрузка реальных данных
+        async function loadUserData() {
+            if (!initData) {
+                console.warn("Открыто вне Telegram");
+                updateBalanceUI();
+                return;
             }
 
-            loadUserData();
-
-        } catch (e) {
-            // Фолбэк для локального теста без бэкенда
-            userBalance -= currentBet;
-            const s1 = slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
-            const s2 = slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
-            const s3 = slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
-            
-            document.getElementById('reel1').innerText = s1;
-            document.getElementById('reel2').innerText = s2;
-            document.getElementById('reel3').innerText = s3;
-
-            if (s1 === s2 && s2 === s3) {
-                const win = currentBet * 5;
-                userBalance += win;
-                statusEl.innerText = `🎉 ДЖЕКПОТ! +${formatCoins(win)} монет!`;
-            } else {
-                statusEl.innerText = `💔 Проигрыш -${formatCoins(currentBet)} монет`;
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/profile`, {
+                    headers: { 
+                        'Authorization': `Bearer ${initData}`,
+                        'bypass-tunnel-reminder': 'true'
+                    }
+                });
+                
+                if (!res.ok) throw new Error(`HTTP Error ${res.status}`);
+                
+                const data = await res.json();
+                userBalance = data.balance;
+                
+                document.getElementById('u-name').innerText = data.name;
+                document.getElementById('u-role').innerText = data.role;
+                document.getElementById('u-avatar').innerText = (data.name[0] || 'K').toUpperCase();
+                
+                updateBalanceUI();
+                renderHistoryFromAPI(data.history);
+            } catch (e) {
+                console.error("Ошибка загрузки профиля:", e);
             }
-            updateBalanceUI();
-        } finally {
-            isSpinning = false;
-        }
-    }
-
-    // Покупка в Магазине
-    async function buyItem(itemName, price) {
-        if (userBalance < price) {
-            alert('❌ Недостаточно монет!');
-            return;
         }
 
-        if (!confirm(`Купить "${itemName}" за ${formatCoins(price)} монет?`)) return;
+        function updateBalanceUI() {
+            const formatted = formatCoins(userBalance);
+            document.getElementById('user-balance').innerText = formatted;
+            document.getElementById('profile-balance').innerText = formatted;
+        }
 
-        try {
-            const res = await fetch(`${API_BASE_URL}/api/buy`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${initData}`
-                },
-                body: JSON.stringify({ item_name: itemName, price: price })
+        // Отрисовка истории
+        function renderHistoryFromAPI(historyList) {
+            const container = document.getElementById('history-container');
+            container.innerHTML = '';
+
+            if (!historyList || historyList.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-sub); text-align: center;">История пока пуста</p>';
+                return;
+            }
+
+            historyList.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'history-item';
+                const isPlus = item.amount >= 0;
+                const sign = isPlus ? '+' : '';
+                const colorClass = isPlus ? 'amount-plus' : 'amount-minus';
+
+                el.innerHTML = `
+                    <div class="history-info">
+                        <p>${item.reason}</p>
+                        <span>${item.date}</span>
+                    </div>
+                    <div class="history-amount ${colorClass}">${sign}${formatCoins(item.amount)}</div>
+                `;
+                container.appendChild(el);
             });
-
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.error || "Ошибка покупки");
-
-            userBalance = data.new_balance;
-            updateBalanceUI();
-            loadUserData();
-            alert(`✅ Успешно куплено: ${itemName}!`);
-
-        } catch (e) {
-            // Фолбэк для теста без сервера
-            userBalance -= price;
-            updateBalanceUI();
-            alert(`✅ Успешно куплено: ${itemName}!`);
         }
-    }
 
-    // Кнопки ставок в HTML
-    document.querySelector('.bet-selector').innerHTML = `
-        <button class="bet-btn active" onclick="setBet(1000, this)">1 000</button>
-        <button class="bet-btn" onclick="setBet(5000, this)">5 000</button>
-        <button class="bet-btn" onclick="setBet(25000, this)">25 000</button>
-    `;
-
-    // Переключение вкладок
-    function switchTab(tabName, navEl) {
-        if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-
-        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-
-        document.getElementById('tab-' + tabName).classList.add('active');
-
-        if (navEl) {
-            navEl.classList.add('active');
-        } else {
-            const navItems = document.querySelectorAll('.nav-item');
-            if (tabName === 'shop') navItems[1].classList.add('active');
-            if (tabName === 'casino') navItems[2].classList.add('active');
+        // Выбор ставки в Казике
+        function setBet(amount, btnEl) {
+            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+            currentBet = amount;
+            document.querySelectorAll('.bet-btn').forEach(b => b.classList.remove('active'));
+            btnEl.classList.add('active');
         }
-    }
 
-    window.onload = loadUserData;
-</script>
+        // Крутка Казика
+        async function spinSlots() {
+            if (isSpinning) return;
+            if (userBalance < currentBet) {
+                alert('Недостаточно монет для ставки!');
+                return;
+            }
+
+            isSpinning = true;
+            if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('heavy');
+
+            const statusEl = document.getElementById('casino-status');
+            statusEl.innerText = "Крутим...";
+            statusEl.style.color = "var(--accent-gold)";
+
+            const r1 = document.getElementById('reel1');
+            const r2 = document.getElementById('reel2');
+            const r3 = document.getElementById('reel3');
+
+            r1.classList.add('spinning');
+            r2.classList.add('spinning');
+            r3.classList.add('spinning');
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/spin`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${initData}`,
+                        'bypass-tunnel-reminder': 'true'
+                    },
+                    body: JSON.stringify({ bet: currentBet })
+                });
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || `HTTP Error ${res.status}`);
+
+                r1.classList.remove('spinning');
+                r2.classList.remove('spinning');
+                r3.classList.remove('spinning');
+
+                r1.innerText = data.reels[0];
+                r2.innerText = data.reels[1];
+                r3.innerText = data.reels[2];
+
+                userBalance = data.new_balance;
+                updateBalanceUI();
+
+                if (data.win_amount > 0) {
+                    statusEl.innerText = `🎉 Выигрыш +${formatCoins(data.win_amount)} монет!`;
+                    statusEl.style.color = "var(--success-color)";
+                } else {
+                    statusEl.innerText = `💔 Проигрыш -${formatCoins(currentBet)} монет`;
+                    statusEl.style.color = "var(--danger-color)";
+                }
+
+                loadUserData();
+
+            } catch (e) {
+                console.error("Ошибка казика:", e);
+                r1.classList.remove('spinning');
+                r2.classList.remove('spinning');
+                r3.classList.remove('spinning');
+                statusEl.innerText = "❌ Ошибка сервера!";
+            } finally {
+                isSpinning = false;
+            }
+        }
+
+        // Покупка в Магазине
+        async function buyItem(itemName, price) {
+            if (userBalance < price) {
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+                alert('❌ Недостаточно монет!');
+                return;
+            }
+
+            if (!confirm(`Купить "${itemName}" за ${formatCoins(price)} монет?`)) return;
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/buy`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${initData}`,
+                        'bypass-tunnel-reminder': 'true'
+                    },
+                    body: JSON.stringify({ item_name: itemName, price: price })
+                });
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || `HTTP Error ${res.status}`);
+
+                if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                userBalance = data.new_balance;
+                updateBalanceUI();
+                loadUserData();
+                alert(`✅ Успешно куплено: ${itemName}!`);
+
+            } catch (e) {
+                console.error("Ошибка покупки:", e);
+                alert("❌ Ошибка покупки: " + e.message);
+            }
+        }
+
+        // Переключение вкладок
+        function switchTab(tabName, navEl) {
+            if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+            document.getElementById('tab-' + tabName).classList.add('active');
+
+            if (navEl) {
+                navEl.classList.add('active');
+            } else {
+                const navItems = document.querySelectorAll('.nav-item');
+                if (tabName === 'shop') navItems[1].classList.add('active');
+                if (tabName === 'casino') navItems[2].classList.add('active');
+            }
+        }
+
+        window.onload = loadUserData;
+    </script>
 </body>
 </html>
